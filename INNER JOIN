@@ -1,0 +1,54 @@
+-- ================================================
+USE[farms_pride_test]
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =========================================================================
+-- Author:		THARINDU
+-- Create date: 27-01-2023
+-- Description:	PROCEDURE TO RETRIEVE ASM'S CUSTOMER VISIT HISTORY DETAILS
+-- =========================================================================
+
+-- EXEC ANDROID_GET_CUSTOMER_VISIT_HISTORY_DETAILS_OF_ASM 19
+
+ALTER PROCEDURE ANDROID_GET_CUSTOMER_VISIT_HISTORY_DETAILS_OF_ASM
+
+	@ASM_ID		INT
+
+AS
+BEGIN
+
+	--DECLARE @FROM_DATE VARCHAR(6) = '20230127' -- YYYYMMDD
+	--DECLARE @TO_DATE VARCHAR(6) = '20221231' --YYYYMMDD
+
+	DECLARE @_DATE VARCHAR(6) =CONVERT (VARCHAR(8),GETDATE(),112)
+
+
+
+	SELECT * 
+	FROM [dbo].[ALL_ACTIVE_DIRECT_CUSTOMERS_VIEW]
+
+	DECLARE @VISIT_DATE VARCHAR(MAX), @CUSTOMER_NAME VARCHAR(MAX), @DISTRIBUTOR_NAME VARCHAR(MAX), @SALES_REP_NAME VARCHAR(MAX)
+
+
+	SET @VISIT_DATE = '20230127'
+	SET @CUSTOMER_NAME = 'TEST CUSTOMER'
+	SET @DISTRIBUTOR_NAME = 'TEST DISTRIBUTOR'
+	SET @SALES_REP_NAME = 'TEST SALES REP'
+
+
+	SELECT 
+		  @VISIT_DATE			'visitDate'
+		, @CUSTOMER_NAME		'customerName'
+		, @DISTRIBUTOR_NAME		'distributorName'
+		, @SALES_REP_NAME		'salesRepName'
+
+		SELECT date,cm.cmdesc,ih.cmid
+		FROM android_redistributor_test.dbo.invoiceh ih
+		INNER JOIN android_redistributor_test.dbo.customer cm on ih.cmid = cm.cmid
+		WHERE ih.asm_id =12
+
+END
+
